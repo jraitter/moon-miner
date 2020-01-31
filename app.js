@@ -10,7 +10,6 @@ let autoModsElem = document.getElementById("auto-mods");
 let totalClickModsElem = document.getElementById("total-click-mods");
 let totalAutoModsElem = document.getElementById("total-auto-mods");
 
-
 let pickaxePriceElem = document.getElementById("pickaxe-price");
 let shovelPriceElem = document.getElementById("shovel-price");
 let roverPriceElem = document.getElementById("rover-price");
@@ -75,14 +74,13 @@ function addClickModifiers() {
   let modTotal = 1;
   for (let i = 0; i < clickModifiers.length; i++)
     modTotal += clickUpgrades[clickModifiers[i]].multiplier;
-  console.log("ClickModTotal ", modTotal);
   return modTotal;
 }
+
 function addAutoModifiers() {
   let modTotal = 0;
   for (let i = 0; i < autoModifiers.length; i++)
     modTotal += autoUpgrades[autoModifiers[i]].multiplier;
-  console.log("autoModTotal ", modTotal);
   return modTotal;
 }
 
