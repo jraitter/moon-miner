@@ -29,6 +29,9 @@
         <div class="col-5">
           <h5>Cheese count: <span id="cheese-count"></span></h5>
           <h5>Click Modifiers: <span id="click-mods"></span></h5>
+          <h6>Current click avantage: <span id="total-click-mods"></span></h6>
+          <h5>Auto Modifiers: <span id="auto-mods"></span></h5>
+          <h6>Current auto avantage: <span id="total-auto-mods"></span></h6>
         </div>
         <div class="col-2">
           <div class="card">
@@ -53,7 +56,12 @@
             </div>
             <div class="col-6">
               <h5>Purchase auto upgrades</h5>
-
+              <button type="button" id="rover-btn" class="btn btn-primary"
+                onclick="buyAutoModifier('rover')">Rover</button>
+              <h6>Price: <span id="rover-price"></span></h6>
+              <button type="button" id="truck-btn" class="btn btn-primary"
+                onclick="buyAutoModifier('truck')">Truck</button>
+              <h6>Price: <span id="truck-price"></span></h6>
             </div>
           </div>
         </div>
