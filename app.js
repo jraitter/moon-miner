@@ -1,8 +1,8 @@
 // definitions begin here
-let cheeseCount = 75;
+let cheeseCount = 2000;
 let totalClickAdvantage = 0;
-let clickModifiers = [];
-let autoModifiers = [];
+// let clickModifiers = [];
+// let autoModifiers = [];
 
 let cheeseCountElem = document.getElementById("cheese-count");
 let numPickaxeElem = document.getElementById("pickaxe-mods");
@@ -17,13 +17,13 @@ let roverPriceElem = document.getElementById("rover-price");
 let truckPriceElem = document.getElementById("truck-price");
 
 let clickUpgrades = {
-  pickaxe: { price: 100, quantity: 0, multiplier: 1 },
-  shovel: { price: 200, quantity: 0, multiplier: 5 }
+  pickaxe: { price: 100, quantity: 0, multiplier: 1, strength: 0 },
+  shovel: { price: 200, quantity: 0, multiplier: 5, strength: 0 }
 };
 
 let autoUpgrades = {
-  rover: { price: 600, quantity: 0, multiplier: 20 },
-  truck: { price: 800, quantity: 0, multiplier: 50 }
+  rover: { price: 600, quantity: 0, multiplier: 20, strength: 0 },
+  truck: { price: 800, quantity: 0, multiplier: 50, strength: 0 }
 };
 
 // functions begin here
@@ -35,53 +35,76 @@ function mine() {
 function buyClickModifier(modifier) {
   console.log("buying a click mod ", modifier);
   let purchasePrice = clickUpgrades[modifier].price;
+  let tmpEntry = clickUpgrades[modifier];
+
   if (cheeseCount >= purchasePrice) {
     cheeseCount -= purchasePrice;
-    clickModifiers.push(modifier);
-    clickUpgrades[modifier].price += 100;
-    clickUpgrades[modifier].quantity += 1;
+    // clickModifiers.push(modifier);
+    tmpEntry.price += 100;
+    tmpEntry.quantity += 1;
+    tmpEntry.strength = tmpEntry.quantity * tmpEntry.multiplier;
   }
   updateGame();
 }
 function buyAutoModifier(modifier) {
   console.log("buying an auto mod ", modifier);
   let purchasePrice = autoUpgrades[modifier].price;
+  let tmpEntry = autoUpgrades[modifier];
   if (cheeseCount >= purchasePrice) {
     cheeseCount -= purchasePrice;
-    autoModifiers.push(modifier);
-    autoUpgrades[modifier].price += 100;
-    autoUpgrades[modifier].quantity += 1;
+    // autoModifiers.push(modifier);
+    tmpEntry.price += 100;
+    tmpEntry.quantity += 1;
+    tmpEntry.strength = tmpEntry.quantity * tmpEntry.multiplier;
+
   }
   updateGame();
 }
 
-function getClickMods() {
-  let itemsString = "";
-  for (let i = 0; i < clickModifiers.length; i++) {
-    itemsString += clickModifiers[i] + ", ";
-  }
-  return itemsString;
-}
+// function getClickMods() {
+//   let itemsString = "";
+//   for (let i = 0; i < clickModifiers.length; i++) {
+//     itemsString += clickModifiers[i] + ", ";
+//   }
+//   return itemsString;
+// }
 
-function getAutoMods() {
-  let itemsString = "";
-  for (let i = 0; i < autoModifiers.length; i++) {
-    itemsString += autoModifiers[i] + ", ";
-  }
-  return itemsString;
-}
+// function getAutoMods() {
+//   let itemsString = "";
+//   for (let i = 0; i < autoModifiers.length; i++) {
+//     itemsString += autoModifiers[i] + ", ";
+//   }
+//   return itemsString;
+// }
+
+// function addClickModifiers() {
+//   let modTotal = 1;
+//   for (let i = 0; i < clickModifiers.length; i++)
+//     modTotal += clickUpgrades[clickModifiers[i]].multiplier;
+//   getClickModStrength()
+//   return modTotal;
+// }
 
 function addClickModifiers() {
   let modTotal = 1;
-  for (let i = 0; i < clickModifiers.length; i++)
-    modTotal += clickUpgrades[clickModifiers[i]].multiplier;
+  let keys = Object.keys(clickUpgrades);
+  for (let i = 0; i < keys.length; i++)
+    modTotal += parseInt(clickUpgrades[keys[i]].strength);
   return modTotal;
 }
 
+// function addAutoModifiers() {
+//   let modTotal = 0;
+//   for (let i = 0; i < autoModifiers.length; i++)
+//     modTotal += autoUpgrades[autoModifiers[i]].multiplier;
+//   return modTotal;
+// }
+
 function addAutoModifiers() {
   let modTotal = 0;
-  for (let i = 0; i < autoModifiers.length; i++)
-    modTotal += autoUpgrades[autoModifiers[i]].multiplier;
+  let keys = Object.keys(autoUpgrades);
+  for (let i = 0; i < keys.length; i++)
+    modTotal += parseInt(autoUpgrades[keys[i]].strength);
   return modTotal;
 }
 
@@ -110,6 +133,26 @@ function checkButtonStatus() {
   } else {
     disableButton("truck-btn", true);
   }
+  if (cheeseCount >= 5000) {
+    // set alert and stop interval timer
+    gameAlerts("game-over")
+    clearInterval(intervalID);
+    cheeseCount = 5000;
+  }
+}
+
+function gameAlerts(trigger) {
+  switch (trigger) {
+    case "truck":
+      swal("Good job!", "You can now purchase a truck", "success");
+      break;
+    case "game-over":
+      swal("Game Over!", "You have mined all the cheese off the moon, refresh page to start over.", "success");
+      break;
+    default:
+      swal("Problem", "gameAlerts funcion called with invalid parameter", "warning")
+  }
+
 }
 
 function disableButton(btnID, bool) {
@@ -137,5 +180,4 @@ function updateGame() {
   totalClickModsElem.innerText = addClickModifiers().toString();
   totalAutoModsElem.innerText = addAutoModifiers().toString();
 }
-
 updateGame();
