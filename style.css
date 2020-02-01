@@ -1,3 +1,7 @@
 .bg-stary{
   background-image: url(staryBackground.jpg);
 }
+.sm-moon{
+  height: 20vh;
+  width:  20vh;
+}

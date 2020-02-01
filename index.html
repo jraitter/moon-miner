@@ -14,7 +14,7 @@
   <title>Moon Miner</title>
 </head>
 
-<body>
+<body class="bg-stary">
   <header class="container-fluid bg-dark text-info">
     <div class="row bg-dark">
       <div class="col-12 d-flex justify-content-center">
@@ -24,43 +24,69 @@
   </header>
 
   <main>
-    <section class="continer-fluid bg-secondary text-white">
+    <section class="container-fluid  text-info">
       <div class="row">
-        <div class="col-5">
-          <h5>Cheese count: <span id="cheese-count"></span></h5>
-          <h5>Click Modifiers: <span id="click-mods"></span></h5>
-          <h6>Current click avantage: <span id="total-click-mods"></span></h6>
-          <h5>Auto Modifiers: <span id="auto-mods"></span></h5>
-          <h6>Current auto avantage: <span id="total-auto-mods"></span></h6>
+        <div class="col-4 d-flex align-items-center justify-content-center flex-column">
+          <h3>Amount of Cheese:</h3><br />
+          <h3><span id="cheese-count"></span></h3>
         </div>
-        <div class="col-2">
+        <div class="col-8">
           <div class="card bg-transparent">
-            <img src="MoonImage.png" class="card-img-top" onclick="mine()" alt="MoonImage">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">The moon is made out of cheese</h5>
               <p class="card-text">Click moon to mine cheese</p>
+            </div>
+            <img src="MoonImage.png" class="card-img-top sm-moon" onclick="mine()" alt="MoonImage">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="continer-fluid  text-info">
+      <div class="row pt-5">
+        <div class="col-6 pl-5">
+          <h5>Increase mining by purchasing upgrades</h5>
+          <div class="row">
+            <div class="col-6">
+              <h5># of Pickaxes: <span id="pickaxe-mods"></span></h5>
+            </div>
+            <div class="col-6">
+              <h5># of Shovels: <span id="shovel-mods"></span></h5>
+            </div>
+            <div class="col-12">
+              <h6>Current click avantage: <span id="total-click-mods"></span></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <h5># of Rovers: <span id="rover-mods"></span></h5>
+            </div>
+            <div class="col-6">
+              <h5># of Trucks: <span id="truck-mods"></span></h5>
+            </div>
+            <div class="col-12">
+              <h6>Current auto avantage: <span id="total-auto-mods"></span></h6>
             </div>
           </div>
         </div>
-        <div class="col-5">
+        <div class="col-6">
           <div class="row">
             <div class="col-6">
-              <h5>Purchase click upgrades</h5>
-              <button type="button" id="pickaxe-btn" class="btn btn-primary"
-                onclick="buyClickModifier('pickaxe')">Pickaxe</button>
+              <h5>Click upgrades</h5>
+              <button type="button" id="pickaxe-btn" class="btn btn-info" title="Purchase a pickaxe"
+                onclick="buyClickModifier('pickaxe')" disabled>Pickaxe</button>
               <h6>Price: <span id="pickaxe-price"></span></h6>
-              <button type="button" id="shovel-btn" class="btn btn-primary"
-                onclick="buyClickModifier('shovel')">Shovel</button>
+              <button type="button" id="shovel-btn" class="btn btn-info" title="Purchase a shovel"
+                onclick="buyClickModifier('shovel')" disabled>Shovel</button>
               <h6>Price: <span id="shovel-price"></span></h6>
-
             </div>
             <div class="col-6">
-              <h5>Purchase auto upgrades</h5>
-              <button type="button" id="rover-btn" class="btn btn-primary"
-                onclick="buyAutoModifier('rover')">Rover</button>
+              <h5>Auto upgrades</h5>
+              <button type="button" id="rover-btn" class="btn btn-info" title="Purchase a rover"
+                onclick="buyAutoModifier('rover')" disabled>Rover</button>
               <h6>Price: <span id="rover-price"></span></h6>
-              <button type="button" id="truck-btn" class="btn btn-primary"
-                onclick="buyAutoModifier('truck')">Truck</button>
+              <button type="button" id="truck-btn" class="btn btn-info" title="Purchase a truck"
+                onclick="buyAutoModifier('truck')" disabled>Truck</button>
               <h6>Price: <span id="truck-price"></span></h6>
             </div>
           </div>
@@ -68,7 +94,6 @@
       </div>
     </section>
   </main>
-
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

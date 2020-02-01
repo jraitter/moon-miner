@@ -1,15 +1,16 @@
 // definitions begin here
-let cheeseCount = 2000;
+let cheeseCount = 75;
 let totalClickAdvantage = 0;
 let clickModifiers = [];
 let autoModifiers = [];
 
 let cheeseCountElem = document.getElementById("cheese-count");
-let clickModsElem = document.getElementById("click-mods");
-let autoModsElem = document.getElementById("auto-mods");
+let numPickaxeElem = document.getElementById("pickaxe-mods");
+let numShovelElem = document.getElementById("shovel-mods");
+let numRoverElem = document.getElementById("rover-mods");
+let numTruckElem = document.getElementById("truck-mods");
 let totalClickModsElem = document.getElementById("total-click-mods");
 let totalAutoModsElem = document.getElementById("total-auto-mods");
-
 let pickaxePriceElem = document.getElementById("pickaxe-price");
 let shovelPriceElem = document.getElementById("shovel-price");
 let roverPriceElem = document.getElementById("rover-price");
@@ -84,17 +85,51 @@ function addAutoModifiers() {
   return modTotal;
 }
 
+function checkButtonStatus() {
+  if (cheeseCount >= clickUpgrades.pickaxe.price) {
+    // enable pickaxe button
+    disableButton("pickaxe-btn", false);
+  } else {
+    disableButton("pickaxe-btn", true);
+  }
+  if (cheeseCount >= clickUpgrades.shovel.price) {
+    // enable shovel button
+    disableButton("shovel-btn", false);
+  } else {
+    disableButton("shovel-btn", true);
+  }
+  if (cheeseCount >= autoUpgrades.rover.price) {
+    // enable rover button
+    disableButton("rover-btn", false);
+  } else {
+    disableButton("rover-btn", true);
+  }
+  if (cheeseCount >= autoUpgrades.truck.price) {
+    // enable truck button
+    disableButton("truck-btn", false);
+  } else {
+    disableButton("truck-btn", true);
+  }
+}
+
+function disableButton(btnID, bool) {
+  document.getElementById(btnID).disabled = bool;
+}
+
 function collectAutoUpgrades() {
   cheeseCount += addAutoModifiers();
   updateGame();
 }
 
-setInterval(collectAutoUpgrades, 3000);
+let intervalID = setInterval(collectAutoUpgrades, 3000);
 
 function updateGame() {
+  checkButtonStatus();
   cheeseCountElem.innerText = cheeseCount.toString();
-  clickModsElem.innerText = getClickMods();
-  autoModsElem.innerText = getAutoMods();
+  numPickaxeElem.innerText = clickUpgrades.pickaxe.quantity.toString();
+  numShovelElem.innerText = clickUpgrades.shovel.quantity.toString();
+  numRoverElem.innerText = autoUpgrades.rover.quantity.toString();
+  numTruckElem.innerText = autoUpgrades.truck.quantity.toString();
   pickaxePriceElem.innerText = clickUpgrades.pickaxe.price.toString();
   shovelPriceElem.innerText = clickUpgrades.shovel.price.toString();
   roverPriceElem.innerText = autoUpgrades.rover.price.toString();
