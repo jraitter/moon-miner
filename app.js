@@ -1,8 +1,5 @@
 // definitions begin here
-let cheeseCount = 2000;
-let totalClickAdvantage = 0;
-// let clickModifiers = [];
-// let autoModifiers = [];
+let cheeseCount = 0;
 
 let cheeseCountElem = document.getElementById("cheese-count");
 let numPickaxeElem = document.getElementById("pickaxe-mods");
@@ -39,8 +36,7 @@ function buyClickModifier(modifier) {
 
   if (cheeseCount >= purchasePrice) {
     cheeseCount -= purchasePrice;
-    // clickModifiers.push(modifier);
-    tmpEntry.price += 100;
+    tmpEntry.price += 50;
     tmpEntry.quantity += 1;
     tmpEntry.strength = tmpEntry.quantity * tmpEntry.multiplier;
   }
@@ -52,7 +48,6 @@ function buyAutoModifier(modifier) {
   let tmpEntry = autoUpgrades[modifier];
   if (cheeseCount >= purchasePrice) {
     cheeseCount -= purchasePrice;
-    // autoModifiers.push(modifier);
     tmpEntry.price += 100;
     tmpEntry.quantity += 1;
     tmpEntry.strength = tmpEntry.quantity * tmpEntry.multiplier;
@@ -61,30 +56,6 @@ function buyAutoModifier(modifier) {
   updateGame();
 }
 
-// function getClickMods() {
-//   let itemsString = "";
-//   for (let i = 0; i < clickModifiers.length; i++) {
-//     itemsString += clickModifiers[i] + ", ";
-//   }
-//   return itemsString;
-// }
-
-// function getAutoMods() {
-//   let itemsString = "";
-//   for (let i = 0; i < autoModifiers.length; i++) {
-//     itemsString += autoModifiers[i] + ", ";
-//   }
-//   return itemsString;
-// }
-
-// function addClickModifiers() {
-//   let modTotal = 1;
-//   for (let i = 0; i < clickModifiers.length; i++)
-//     modTotal += clickUpgrades[clickModifiers[i]].multiplier;
-//   getClickModStrength()
-//   return modTotal;
-// }
-
 function addClickModifiers() {
   let modTotal = 1;
   let keys = Object.keys(clickUpgrades);
@@ -92,13 +63,6 @@ function addClickModifiers() {
     modTotal += parseInt(clickUpgrades[keys[i]].strength);
   return modTotal;
 }
-
-// function addAutoModifiers() {
-//   let modTotal = 0;
-//   for (let i = 0; i < autoModifiers.length; i++)
-//     modTotal += autoUpgrades[autoModifiers[i]].multiplier;
-//   return modTotal;
-// }
 
 function addAutoModifiers() {
   let modTotal = 0;
