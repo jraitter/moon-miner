@@ -26,6 +26,14 @@ let autoUpgrades = {
 // functions begin here
 function mine() {
   cheeseCount += addClickModifiers();
+  saveToLocalStorage();
+  updateGame();
+  // clickCooldown();
+}
+
+function collectAutoUpgrades() {
+  cheeseCount += addAutoModifiers();
+  saveToLocalStorage();
   updateGame();
 }
 
@@ -51,7 +59,6 @@ function buyAutoModifier(modifier) {
     tmpEntry.price += 100;
     tmpEntry.quantity += 1;
     tmpEntry.strength = tmpEntry.quantity * tmpEntry.multiplier;
-
   }
   updateGame();
 }
@@ -97,12 +104,6 @@ function checkButtonStatus() {
   } else {
     disableButton("truck-btn", true);
   }
-  if (cheeseCount >= 5000) {
-    // set alert and stop interval timer
-    gameAlerts("game-over")
-    clearInterval(intervalID);
-    cheeseCount = 5000;
-  }
 }
 
 function gameAlerts(trigger) {
@@ -116,19 +117,51 @@ function gameAlerts(trigger) {
     default:
       swal("Problem", "gameAlerts funcion called with invalid parameter", "warning")
   }
-
 }
 
 function disableButton(btnID, bool) {
   document.getElementById(btnID).disabled = bool;
 }
 
-function collectAutoUpgrades() {
-  cheeseCount += addAutoModifiers();
-  updateGame();
+function disableAllButtons() {
+  let buttons = document.getElementsByClassName("btn");
+  for (let i = 0; i < buttons.length; i++) {
+    disableButton(buttons[i].id, true);
+  }
 }
 
-let intervalID = setInterval(collectAutoUpgrades, 3000);
+function clickCooldown() {
+  document.getElementById("moon-click").disabled = "true";
+  // setTimeout(function () { document.getElementById("moon-click").disabled = "false"; }, 2000)
+}
+
+function saveToLocalStorage() {
+  window.localStorage.setItem("cheeseCount", JSON.stringify(cheeseCount));
+  window.localStorage.setItem("clickUpgrades", JSON.stringify(clickUpgrades));
+  window.localStorage.setItem("autoUpgrades", JSON.stringify(autoUpgrades));
+}
+
+function clearLocalStorage() {
+  window.localStorage.removeItem("cheeseCount");
+  window.localStorage.removeItem("clickUpgrades");
+  window.localStorage.removeItem("autoUpgrades");
+}
+
+// function loadPlayers() {
+//   let playersData = JSON.parse(window.localStorage.getItem("players"))
+//   if (playersData) {
+//     players = playersData
+
+//   }
+
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
 
 function updateGame() {
   checkButtonStatus();
@@ -143,5 +176,21 @@ function updateGame() {
   truckPriceElem.innerText = autoUpgrades.truck.price.toString();
   totalClickModsElem.innerText = addClickModifiers().toString();
   totalAutoModsElem.innerText = addAutoModifiers().toString();
+  if (cheeseCount >= 5000) {
+    endOfGame();
+  }
 }
+
+function endOfGame() {
+  // set alert and stop interval timer
+  gameAlerts("game-over")
+  clearInterval(intervalID);
+  cheeseCount = 5000;
+  cheeseCountElem.innerText = cheeseCount.toString();
+  disableAllButtons();
+  // sleep(3000);
+  clearLocalStorage();
+}
+
+let intervalID = setInterval(collectAutoUpgrades, 3000);
 updateGame();
