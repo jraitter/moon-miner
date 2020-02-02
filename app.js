@@ -1,5 +1,6 @@
 // definitions begin here
 let cheeseCount = 0;
+let endOfGameValue = 5000;
 
 let cheeseCountElem = document.getElementById("cheese-count");
 let numPickaxeElem = document.getElementById("pickaxe-mods");
@@ -147,12 +148,22 @@ function clearLocalStorage() {
   window.localStorage.removeItem("autoUpgrades");
 }
 
-// function loadPlayers() {
-//   let playersData = JSON.parse(window.localStorage.getItem("players"))
-//   if (playersData) {
-//     players = playersData
+function loadLocalStorage() {
+  // debugger
+  let cheeseData = JSON.parse(window.localStorage.getItem("cheeseCount"));
+  let clickUpgradesData = JSON.parse(window.localStorage.getItem("clickUpgrades"));
+  let autoUpgradesData = JSON.parse(window.localStorage.getItem("autoUpgrades"));
 
-//   }
+  if (cheeseData) {
+    cheeseCount = cheeseData;
+  }
+  if (clickUpgradesData) {
+    clickUpgrades = clickUpgradesData;
+  }
+  if (autoUpgradesData) {
+    autoUpgrades = autoUpgradesData;
+  }
+}
 
 
 function sleep(milliseconds) {
@@ -176,7 +187,7 @@ function updateGame() {
   truckPriceElem.innerText = autoUpgrades.truck.price.toString();
   totalClickModsElem.innerText = addClickModifiers().toString();
   totalAutoModsElem.innerText = addAutoModifiers().toString();
-  if (cheeseCount >= 5000) {
+  if (cheeseCount >= endOfGameValue) {
     endOfGame();
   }
 }
@@ -185,7 +196,7 @@ function endOfGame() {
   // set alert and stop interval timer
   gameAlerts("game-over")
   clearInterval(intervalID);
-  cheeseCount = 5000;
+  cheeseCount = endOfGameValue;
   cheeseCountElem.innerText = cheeseCount.toString();
   disableAllButtons();
   // sleep(3000);
@@ -193,4 +204,7 @@ function endOfGame() {
 }
 
 let intervalID = setInterval(collectAutoUpgrades, 3000);
+
+loadLocalStorage();
+
 updateGame();
